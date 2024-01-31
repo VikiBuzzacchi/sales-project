@@ -1,8 +1,11 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.Producto;
+import com.example.demo.models.Producto;
 import com.example.demo.repository.ProductoRepository;
 
 @RestController
 public class ProductoController {
-    
+
     @Autowired
     private ProductoRepository repo;
 
@@ -58,19 +62,25 @@ public class ProductoController {
         repo.save(updateProducto);
         return "Stock actualizado con éxito.";
     }
-    
+
     @PutMapping("sinstock/{id}")
     public String sinStock(@PathVariable Long id) {
         Producto sinProducto = repo.findById(id).get();
         sinProducto.setCantidad(0);
         repo.save(sinProducto);
-        return "Producto "+id+" sin stock.";
+        return "Producto " + id + " sin stock.";
     }
 
     @DeleteMapping("producto/elim/{id}")
-    public String deleteP(@PathVariable Long id) {
-        Producto deleteProducto = repo.findById(id).get();
-        repo.delete(deleteProducto);
-        return "Producto liminado.";
+    public ResponseEntity<String> deleteP(@PathVariable Long id) {
+        Optional<Producto> optionalProducto = repo.findById(id);
+
+        if (optionalProducto.isPresent()) {
+            Producto deleteProducto = optionalProducto.get();
+            repo.delete(deleteProducto);
+            return new ResponseEntity<>("Producto eliminado.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Producto no encontrado.", HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,7 @@ public class ClienteController {
     // abstraernos de la sintaxis de sql
     @Autowired
     private ClienteRepository repo;
-    
+
     @GetMapping
     public String index() {
         return "Conectando";
@@ -52,9 +55,16 @@ public class ClienteController {
     }
 
     @DeleteMapping("baja/{id}")
-    public String delete(@PathVariable Long id) {
-        Cliente deleteCliente = repo.findById(id).get();
-        repo.delete(deleteCliente);
-        return "Cliente eliminado.";
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        Optional<Cliente> optionalCliente = repo.findById(id);
+
+        if (optionalCliente.isPresent()) {
+            Cliente deleteCliente = optionalCliente.get();
+            repo.delete(deleteCliente);
+            return new ResponseEntity<>("Cliente eliminado.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Cliente no encontrado.", HttpStatus.NOT_FOUND);
+        }
     }
+
 }
