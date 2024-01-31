@@ -1,10 +1,13 @@
 package com.example.demo.models;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,9 +22,6 @@ public class Producto {
     @Column
     private String nombre;
 
-    // @Column(name = "correo")
-    // private String email;
-
     @Column
     private int cantidad;
 
@@ -34,4 +34,10 @@ public class Producto {
     @Column
     private String descripcion;
 
+    // @ManyToOne(optional = false)
+    // @JoinColumn(name = "venta_id")
+    // private Venta venta;
+
+    @ManyToMany(mappedBy = "productos")
+    private List<Venta> ventas;
 }
