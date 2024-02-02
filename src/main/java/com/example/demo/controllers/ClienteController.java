@@ -25,22 +25,41 @@ public class ClienteController {
     @Autowired
     private ClienteRepository repo;
 
+    /**
+     * 
+     * @return index
+     */
     @GetMapping
     public String index() {
         return "Conectando";
     }
 
+    /**
+     * Get de clientes
+     * @return lista completa de clientes en la base de datos
+     */
     @GetMapping("clientes")
     public List<Cliente> getClientes() {
         return repo.findAll();
     }
 
+    /**
+     * Post de cliente
+     * @param cliente
+     * @return cliente guardado
+     */
     @PostMapping("alta")
     public String post(@RequestBody Cliente cliente) {
         repo.save(cliente);
         return "Cliente guardado.";
     }
 
+    /**
+     * Put de cliente
+     * @param id
+     * @param cliente
+     * @return cliente modificado
+     */
     @PutMapping("modificar/{id}")
     // public String update(@PathVariable Long id, @RequestBody Cliente cliente) {
     public Cliente update(@PathVariable Long id, @RequestBody Cliente cliente) {
@@ -54,6 +73,11 @@ public class ClienteController {
         return updateCliente;
     }
 
+    /**
+     * Delete de cliente
+     * @param id
+     * @return si se pudo o no eliminar el cliente
+     */
     @DeleteMapping("baja/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         Optional<Cliente> optionalCliente = repo.findById(id);

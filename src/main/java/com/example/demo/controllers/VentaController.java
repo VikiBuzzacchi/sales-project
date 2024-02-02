@@ -23,11 +23,20 @@ public class VentaController {
     @Autowired
     private VentaRepository repo;
 
+    /**
+     * Get de ventas
+     * @return lista de ventas en la base de datos
+     */
     @GetMapping("ventas")
     public List<Venta> getVentas() {
         return repo.findAll();
     }
 
+    /**
+     * Delete en ventas
+     * @param id
+     * @return venta eliminada en caso de ser encontrada
+     */
     @DeleteMapping("venta/elim/{id}")
     public ResponseEntity<String> deleteV(@PathVariable Long id) {
         Optional<Venta> optionalVenta = repo.findById(id);

@@ -24,17 +24,32 @@ public class ProductoController {
     @Autowired
     private ProductoRepository repo;
 
+    /**
+     * Get de producto
+     * @return lista de productos de la base de datos
+     */
     @GetMapping("productos")
     public List<Producto> getProductos() {
         return repo.findAll();
     }
 
+    /**
+     * Post de producto
+     * @param producto
+     * @return producto nuevo guardado
+     */
     @PostMapping("producto/nuevo")
     public String postP(@RequestBody Producto producto) {
         repo.save(producto);
         return "Producto guardado.";
     }
 
+    /**
+     * Put de producto
+     * @param id
+     * @param producto
+     * @return actualización del producto en base a su id
+     */
     @PutMapping("producto/modificar/{id}")
     public String updateP(@PathVariable Long id, @RequestBody Producto producto) {
         Producto updateProducto = repo.findById(id).get();
@@ -63,6 +78,11 @@ public class ProductoController {
         return "Stock actualizado con éxito.";
     }
 
+    /**
+     * Put en producto
+     * @param id
+     * @return deja un producto sin stock(0)
+     */
     @PutMapping("sinstock/{id}")
     public String sinStock(@PathVariable Long id) {
         Producto sinProducto = repo.findById(id).get();
@@ -71,6 +91,11 @@ public class ProductoController {
         return "Producto " + id + " sin stock.";
     }
 
+    /**
+     * Delete de producto
+     * @param id
+     * @return producto eliminado, de ser encontrado
+     */
     @DeleteMapping("producto/elim/{id}")
     public ResponseEntity<String> deleteP(@PathVariable Long id) {
         Optional<Producto> optionalProducto = repo.findById(id);
