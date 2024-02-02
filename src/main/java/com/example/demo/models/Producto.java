@@ -23,10 +23,10 @@ public class Producto {
     private String nombre;
 
     @Column
-    private int cantidad;
+    private Integer cantidad;
 
     @Column
-    private float precio;
+    private Double precio;
 
     @Column
     private Integer codigo;
@@ -40,4 +40,5 @@ public class Producto {
 
     @ManyToMany(mappedBy = "productos")
     private List<Venta> ventas;
+
 }

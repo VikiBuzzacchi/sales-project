@@ -69,9 +69,9 @@ public class ClienteController {
         // return updateCliente;
 
         //
-        boolean optionalCliente = repo.updateCliente(id, cliente);
+        boolean encontrado = repo.updateCliente(id, cliente);
 
-        if (optionalCliente) {
+        if (encontrado) {
             return new ResponseEntity<>("Cliente modificado.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Cliente no encontrado.", HttpStatus.NOT_FOUND);
@@ -85,9 +85,9 @@ public class ClienteController {
      */
     @DeleteMapping("baja/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        boolean optionalCliente = repo.deleteCliente(id);
+        boolean encontrado = repo.deleteCliente(id);
 
-        if (optionalCliente) {
+        if (encontrado) {
             return new ResponseEntity<>("Cliente eliminado.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Cliente no encontrado.", HttpStatus.NOT_FOUND);

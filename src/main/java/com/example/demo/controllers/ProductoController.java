@@ -1,8 +1,6 @@
 package com.example.demo.controllers;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.Producto;
-import com.example.demo.models.Producto;
-import com.example.demo.repository.ProductoRepository;
+import com.example.demo.service.ProductoService;
 
 @RestController
 public class ProductoController {
 
     @Autowired
-    private ProductoRepository repo;
+    private ProductoService repo;
 
     /**
      * Get de producto
@@ -30,7 +27,7 @@ public class ProductoController {
      */
     @GetMapping("productos")
     public List<Producto> getProductos() {
-        return repo.findAll();
+        return repo.getAllProductos();
     }
 
     /**
@@ -40,7 +37,7 @@ public class ProductoController {
      */
     @PostMapping("producto/nuevo")
     public String postP(@RequestBody Producto producto) {
-        repo.save(producto);
+        repo.createProducto(producto);
         return "Producto guardado.";
     }
 
@@ -51,31 +48,34 @@ public class ProductoController {
      * @return actualización del producto en base a su id
      */
     @PutMapping("producto/modificar/{id}")
-    public String updateP(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto updateProducto = repo.findById(id).get();
-        updateProducto.setCantidad(producto.getCantidad());
-        updateProducto.setDescripcion(producto.getDescripcion());
-        updateProducto.setNombre(producto.getNombre());
-        updateProducto.setPrecio(producto.getPrecio());
-        updateProducto.setCodigo(producto.getCodigo());
-        repo.save(updateProducto);
-        return "Producto actualizado con éxito.";
+    // public String updateP(@PathVariable Long id, @RequestBody Producto producto) {
+    //     Producto updateProducto = repo.findById(id).get();
+    //     updateProducto.setCantidad(producto.getCantidad());
+    //     updateProducto.setDescripcion(producto.getDescripcion());
+    //     updateProducto.setNombre(producto.getNombre());
+    //     updateProducto.setPrecio(producto.getPrecio());
+    //     updateProducto.setCodigo(producto.getCodigo());
+    //     repo.save(updateProducto);
+    //     return "Producto actualizado con éxito.";
+    // }
+    public ResponseEntity<String> updateP(@PathVariable Long id, @RequestBody Producto producto) {
+        boolean encontrado = repo.updateProducto(id, producto);
+
+        if (encontrado) {
+            return new ResponseEntity<>("Producto actualizado con éxito.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Producto no encontrado.", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/modificar/precio/{id}")
-    public String updatePrecio(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto updateProducto = repo.findById(id).get();
-        updateProducto.setPrecio(producto.getPrecio());
-        repo.save(updateProducto);
-        return "Precio actualizado con éxito.";
+    public ResponseEntity<String> updatePrecio(@PathVariable Long id, @RequestBody Producto producto) {
+        return repo.updatePrecio(id, producto);
     }
 
     @PutMapping("/modificar/stock/{id}")
-    public String updateStock(@PathVariable Long id, @RequestBody Producto producto) {
-        Producto updateProducto = repo.findById(id).get();
-        updateProducto.setCantidad(producto.getCantidad());
-        repo.save(updateProducto);
-        return "Stock actualizado con éxito.";
+    public ResponseEntity<String> updateStock(@PathVariable Long id, @RequestBody Producto producto) {
+        return repo.updateStock(id, producto);
     }
 
     /**
@@ -84,12 +84,10 @@ public class ProductoController {
      * @return deja un producto sin stock(0)
      */
     @PutMapping("sinstock/{id}")
-    public String sinStock(@PathVariable Long id) {
-        Producto sinProducto = repo.findById(id).get();
-        sinProducto.setCantidad(0);
-        repo.save(sinProducto);
-        return "Producto " + id + " sin stock.";
+    public ResponseEntity<String> sinStock(@PathVariable Long id) {
+        return repo.sinStock(id);
     }
+
 
     /**
      * Delete de producto
@@ -98,11 +96,10 @@ public class ProductoController {
      */
     @DeleteMapping("producto/elim/{id}")
     public ResponseEntity<String> deleteP(@PathVariable Long id) {
-        Optional<Producto> optionalProducto = repo.findById(id);
+    
+        boolean encontrado = repo.deleteProducto(id);
 
-        if (optionalProducto.isPresent()) {
-            Producto deleteProducto = optionalProducto.get();
-            repo.delete(deleteProducto);
+        if (encontrado) {
             return new ResponseEntity<>("Producto eliminado.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Producto no encontrado.", HttpStatus.NOT_FOUND);
