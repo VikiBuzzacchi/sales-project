@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.Cliente;
 import com.example.demo.repository.ClienteRepository;
+import com.example.demo.service.ClienteService;
 
 @RestController
 public class ClienteController {
@@ -23,7 +24,7 @@ public class ClienteController {
     // me da métodos de jpa
     // abstraernos de la sintaxis de sql
     @Autowired
-    private ClienteRepository repo;
+    private ClienteService repo;
 
     /**
      * 
@@ -40,7 +41,7 @@ public class ClienteController {
      */
     @GetMapping("clientes")
     public List<Cliente> getClientes() {
-        return repo.findAll();
+        return repo.getAllClientes();
     }
 
     /**
@@ -50,7 +51,7 @@ public class ClienteController {
      */
     @PostMapping("alta")
     public String post(@RequestBody Cliente cliente) {
-        repo.save(cliente);
+        repo.createCliente(cliente);
         return "Cliente guardado.";
     }
 
@@ -62,15 +63,19 @@ public class ClienteController {
      */
     @PutMapping("modificar/{id}")
     // public String update(@PathVariable Long id, @RequestBody Cliente cliente) {
-    public Cliente update(@PathVariable Long id, @RequestBody Cliente cliente) {
-        Cliente updateCliente = repo.findById(id).get();
-        updateCliente.setNombre(cliente.getNombre());
-        updateCliente.setEmail(cliente.getEmail());
-        updateCliente.setApellido(cliente.getApellido());
-        updateCliente.setDni(cliente.getDni());
-        repo.save(updateCliente);
-        // return "Modificado";
-        return updateCliente;
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Cliente cliente) {
+        // Cliente updateCliente = repo.updateCliente(id, cliente);
+        // // return "Modificado";
+        // return updateCliente;
+
+        //
+        boolean optionalCliente = repo.updateCliente(id, cliente);
+
+        if (optionalCliente) {
+            return new ResponseEntity<>("Cliente modificado.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Cliente no encontrado.", HttpStatus.NOT_FOUND);
+        }
     }
 
     /**
@@ -80,11 +85,9 @@ public class ClienteController {
      */
     @DeleteMapping("baja/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
-        Optional<Cliente> optionalCliente = repo.findById(id);
+        boolean optionalCliente = repo.deleteCliente(id);
 
-        if (optionalCliente.isPresent()) {
-            Cliente deleteCliente = optionalCliente.get();
-            repo.delete(deleteCliente);
+        if (optionalCliente) {
             return new ResponseEntity<>("Cliente eliminado.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Cliente no encontrado.", HttpStatus.NOT_FOUND);
