@@ -36,7 +36,7 @@ public class ProductoController {
      * @param producto
      * @return producto nuevo guardado
      */
-    @PostMapping("producto/nuevo")
+    @PostMapping("producto/new")
     public String postP(@RequestBody Producto producto) {
         repo.createProducto(producto);
         return "Producto guardado.";

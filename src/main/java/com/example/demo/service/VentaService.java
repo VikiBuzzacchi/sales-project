@@ -21,27 +21,27 @@ public class VentaService {
         return repo.findAll();
     }
 
-    // public Venta createVenta(Venta venta) {
-    //     return repo.save(venta);
-    // }
+    public Venta createVenta(Venta venta) {
+        return repo.save(venta);
+    }
 
-    // public boolean updateVenta(Long ventaId, Venta venta) {
-    //     Optional<Venta> optionalVenta = repo.findById(ventaId);
-    //     boolean presente = false; // Venta no encontrado
+    public boolean updateVenta(Long ventaId, Venta venta) {
+        Optional<Venta> optionalVenta = repo.findById(ventaId);
+        boolean presente = false; // Venta no encontrado
 
-    //     if (optionalVenta.isPresent()) {
-    //         getVentaById(ventaId);
-    //         venta.setId(ventaId);
-    //         repo.save(venta);
-    //         presente = true;
-    //     }
-    //     return presente;
-    // }
+        if (optionalVenta.isPresent()) {
+            // getVentaById(ventaId);
+            venta.setId(ventaId);
+            repo.save(venta);
+            presente = true;
+        }
+        return presente;
+    }
 
-    // public Venta getVentaById(Long ventaId) {
-    //     return repo.findById(ventaId)
-    //             .orElseThrow(() -> new EntityNotFoundException("Venta no encontrado con ID: " + ventaId));
-    // }
+    public Venta getVentaById(Long ventaId) {
+        return repo.findById(ventaId)
+                .orElseThrow(() -> new EntityNotFoundException("Venta no encontrado con ID: " + ventaId));
+    }
 
     public boolean deleteVenta(Long ventaId) {
         // Validar si el venta existe antes de eliminar
