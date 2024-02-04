@@ -9,27 +9,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.Venta;
-import com.example.demo.models.Cliente;
 import com.example.demo.repository.VentaRepository;
+import com.example.demo.service.VentaService;
 
 @RestController
+@RequestMapping("/ventas")
 public class VentaController {
     @Autowired
-    private VentaRepository repo;
+    private VentaService repo;
 
     /**
      * Get de ventas
      * @return lista de ventas en la base de datos
      */
-    @GetMapping("ventas")
+    @GetMapping
     public List<Venta> getVentas() {
-        return repo.findAll();
+        return repo.getAllVentas();
     }
 
     /**
@@ -37,17 +36,15 @@ public class VentaController {
      * @param id
      * @return venta eliminada en caso de ser encontrada
      */
-    @DeleteMapping("venta/elim/{id}")
-    public ResponseEntity<String> deleteV(@PathVariable Long id) {
-        Optional<Venta> optionalVenta = repo.findById(id);
+    @DeleteMapping("/elim/{id}")
+    public ResponseEntity<String> deleteP(@PathVariable Long id) {
+    
+        boolean encontrado = repo.deleteVenta(id);
 
-        if (optionalVenta.isPresent()) {
-            Venta deleteVenta = optionalVenta.get();
-            repo.delete(deleteVenta);
+        if (encontrado) {
             return new ResponseEntity<>("Venta eliminada.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Venta no encontrada.", HttpStatus.NOT_FOUND);
         }
     }
-
 }
