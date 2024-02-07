@@ -2,6 +2,7 @@ package com.example.demo.models;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,6 +19,8 @@ import lombok.Setter;
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Id del usuario generado por la DB", requiredMode = Schema.RequiredMode.AUTO, example = "1")
+
     private Long id;
 
     @Column
@@ -34,5 +37,5 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Venta> ventas;
- 
+
 }

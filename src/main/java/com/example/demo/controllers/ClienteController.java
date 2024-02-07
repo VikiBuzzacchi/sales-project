@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.models.Cliente;
 import com.example.demo.service.ClienteService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @RestController
 public class ClienteController {
 
@@ -46,6 +52,12 @@ public class ClienteController {
      * @param cliente
      * @return cliente guardado
      */
+    @Operation(summary = "Crear nuevo usuario", description = "Permite crear un nuevo usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PostMapping("alta")
     public String post(@RequestBody Cliente cliente) {
         repo.createCliente(cliente);
