@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.models.Producto;
 import com.example.demo.service.ProductoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 // @RequestMapping("/productos")
 public class ProductoController {
@@ -26,6 +32,12 @@ public class ProductoController {
      * Get de producto
      * @return lista de productos de la base de datos
      */
+    @Operation(summary = "Mostrar lista de productos", description = "Permite mostrar la lista de productos de la base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping("productos")
     public List<Producto> getProductos() {
         return repo.getAllProductos();
@@ -36,6 +48,12 @@ public class ProductoController {
      * @param producto
      * @return producto nuevo guardado
      */
+    @Operation(summary = "Crear nuevo producto", description = "Permite crear un nuevo producto")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PostMapping("producto/new")
     public String postP(@RequestBody Producto producto) {
         repo.createProducto(producto);
@@ -48,17 +66,13 @@ public class ProductoController {
      * @param producto
      * @return actualización del producto en base a su id
      */
+    @Operation(summary = "Modificar un producto en base a su ID", description = "Se pasa el ID del producto y se modifica la información del mismo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PutMapping("producto/modificar/{id}")
-    // public String updateP(@PathVariable Long id, @RequestBody Producto producto) {
-    //     Producto updateProducto = repo.findById(id).get();
-    //     updateProducto.setCantidad(producto.getCantidad());
-    //     updateProducto.setDescripcion(producto.getDescripcion());
-    //     updateProducto.setNombre(producto.getNombre());
-    //     updateProducto.setPrecio(producto.getPrecio());
-    //     updateProducto.setCodigo(producto.getCodigo());
-    //     repo.save(updateProducto);
-    //     return "Producto actualizado con éxito.";
-    // }
     public ResponseEntity<String> updateP(@PathVariable Long id, @RequestBody Producto producto) {
         boolean encontrado = repo.updateProducto(id, producto);
 
@@ -69,11 +83,23 @@ public class ProductoController {
         }
     }
 
+    @Operation(summary = "Modificar el precio un producto en base a su ID", description = "Se pasa el ID del producto y se modifica la el precio del mismo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PutMapping("/modificar/precio/{id}")
     public ResponseEntity<String> updatePrecio(@PathVariable Long id, @RequestBody Producto producto) {
         return repo.updatePrecio(id, producto);
     }
 
+    @Operation(summary = "Modificar el stock de un producto en base a su ID", description = "Se pasa el ID del producto y se modifica el stock del mismo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PutMapping("/modificar/stock/{id}")
     public ResponseEntity<String> updateStock(@PathVariable Long id, @RequestBody Producto producto) {
         return repo.updateStock(id, producto);
@@ -84,6 +110,12 @@ public class ProductoController {
      * @param id
      * @return deja un producto sin stock(0)
      */
+    @Operation(summary = "Dejar sin stock un producto", description = "Se pasa el ID del producto permitiendo que este se muestre sin stock, es decir con cantidad 0")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PutMapping("sinstock/{id}")
     public ResponseEntity<String> sinStock(@PathVariable Long id) {
         return repo.sinStock(id);
@@ -95,6 +127,12 @@ public class ProductoController {
      * @param id
      * @return producto eliminado, de ser encontrado
      */
+    @Operation(summary = "Eliminar producto por ID", description = "En base al ID del producto, y si el mismo existe, se puede eliminar de la BD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @DeleteMapping("producto/elim/{id}")
     public ResponseEntity<String> deleteP(@PathVariable Long id) {
     

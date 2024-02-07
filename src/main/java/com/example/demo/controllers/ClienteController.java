@@ -33,6 +33,12 @@ public class ClienteController {
      * 
      * @return index
      */
+    @Operation(summary = "Index", description = "Inicio de la aplicación")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping
     public String index() {
         return "Conectando";
@@ -42,6 +48,12 @@ public class ClienteController {
      * Get de clientes
      * @return lista completa de clientes en la base de datos
      */
+    @Operation(summary = "Mostrar lista de usuarios", description = "Permite mostrar la lista de clientes de la base de datos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @GetMapping("clientes")
     public List<Cliente> getClientes() {
         return repo.getAllClientes();
@@ -70,6 +82,12 @@ public class ClienteController {
      * @param cliente
      * @return cliente modificado
      */
+    @Operation(summary = "Modificar un cliente en base a su ID", description = "Se pasa el ID del cliente y se modifica la información del mismo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @PutMapping("modificar/{id}")
     // public String update(@PathVariable Long id, @RequestBody Cliente cliente) {
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Cliente cliente) {
@@ -92,6 +110,12 @@ public class ClienteController {
      * @param id
      * @return si se pudo o no eliminar el cliente
      */
+    @Operation(summary = "Eliminar usuario por ID", description = "En base al ID del cliente, y si el mismo existe, se puede eliminar de la BD")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+    })
     @DeleteMapping("baja/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         boolean encontrado = repo.deleteCliente(id);
