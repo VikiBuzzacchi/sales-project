@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ import com.example.demo.service.VentaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+// import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -79,15 +80,19 @@ public class VentaController {
     // repo.createVenta(venta);
     // return "Venta guardada.";
     // }
-    public ResponseEntity<String> postV(@RequestBody Venta venta) {
+    // public ResponseEntity<String> postV(@RequestBody Venta venta) {
 
-        Venta nuevaVenta = repo.createVenta(venta);
+    //     Venta nuevaVenta = repo.createVenta(venta);
 
-        if (nuevaVenta != null) {
-            return new ResponseEntity<>("Venta guardada.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("No se pudo guardar la venta.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    //     if (nuevaVenta != null) {
+    //         return new ResponseEntity<>("Venta guardada.", HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<>("No se pudo guardar la venta.", HttpStatus.INTERNAL_SERVER_ERROR);
+    //     }
+    // }
+    public String postV(@RequestBody Venta venta) {
+        repo.createVenta(venta);
+        return "Venta guardada";
     }
 
     @Operation(summary = "Modificar una venta en base a su ID", description = "Se pasa el ID de la venta y se modifica la información de la misma")
