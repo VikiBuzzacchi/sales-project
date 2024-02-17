@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +18,21 @@ public class VentaService {
     @Autowired
     private VentaRepository repo;
 
+    @Autowired
+    private FechaRestApi fechaService; // Nuevo servicio para obtener la fecha del servicio externo
+
     public List<Venta> getAllVentas() {
         return repo.findAll();
     }
 
     public Venta createVenta(Venta venta) {
+        // Obtener la fecha del servicio externo
+        LocalDateTime fechaActual = fechaService.obtenerFecha();
+
+        // Asignar la fecha a la venta
+        venta.setFecha(fechaActual);
+
+        // Guardar la venta en la base de datos
         return repo.save(venta);
     }
 

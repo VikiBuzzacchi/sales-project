@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +29,9 @@ public class Venta {
     private Long id;
 
     @Schema(description = "Fecha de la venta en la venta", requiredMode = Schema.RequiredMode.REQUIRED, example = "2024-02-07T08:30:00")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    // @Temporal(TemporalType.TIMESTAMP)
+    // private Date fecha;
+    private LocalDateTime fecha;
 
     @Column
     @Schema(description = "Cantidad de productos en la venta", requiredMode = Schema.RequiredMode.REQUIRED, example = "4")
