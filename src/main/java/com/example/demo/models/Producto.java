@@ -45,7 +45,7 @@ public class Producto {
     // @JoinColumn(name = "venta_id")
     // private Venta venta;
 
-    @ManyToMany(mappedBy = "productos")
-    private List<Venta> ventas;
+    // @ManyToMany(mappedBy = "productos")
+    // private List<Venta> ventas;
 
 }

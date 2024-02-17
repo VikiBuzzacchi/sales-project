@@ -38,7 +38,7 @@ public class Cliente {
     @Schema(description = "Email del usuario", requiredMode = Schema.RequiredMode.REQUIRED, example = "vbuzzacchi7@gmail.com")
     private String email;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    private List<Venta> ventas;
+    // @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    // private List<Venta> ventas;
 
 }

@@ -46,6 +46,9 @@ public class ProductoService {
                 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado con ID: " + productoId));
     }
 
+    public List<Producto> getProductosByIds(List<Long> ids) {
+        return repo.findAllById(ids);
+    }
 
     //sets particulares
 

@@ -37,8 +37,7 @@ public class VentaController {
     @Operation(summary = "Mostrar lista de ventas", description = "Permite mostrar la lista de ventas de la base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping
     public List<Venta> getVentas() {
@@ -54,8 +53,7 @@ public class VentaController {
     @Operation(summary = "Eliminar venta por ID", description = "En base al ID de la venta, y si el mismo existe, se puede eliminar el mismo de la BD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @DeleteMapping("/elim/{id}")
     public ResponseEntity<String> deleteV(@PathVariable Long id) {
@@ -72,8 +70,7 @@ public class VentaController {
     @Operation(summary = "Crear nueva venta", description = "Permite crear una nueva venta")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping("/new")
     // public String postV(@RequestBody Venta venta) {
@@ -82,24 +79,34 @@ public class VentaController {
     // }
     // public ResponseEntity<String> postV(@RequestBody Venta venta) {
 
-    //     Venta nuevaVenta = repo.createVenta(venta);
+    // Venta nuevaVenta = repo.createVenta(venta);
 
-    //     if (nuevaVenta != null) {
-    //         return new ResponseEntity<>("Venta guardada.", HttpStatus.OK);
-    //     } else {
-    //         return new ResponseEntity<>("No se pudo guardar la venta.", HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
+    // if (nuevaVenta != null) {
+    // return new ResponseEntity<>("Venta guardada.", HttpStatus.OK);
+    // } else {
+    // return new ResponseEntity<>("No se pudo guardar la venta.",
+    // HttpStatus.INTERNAL_SERVER_ERROR);
     // }
-    public String postV(@RequestBody Venta venta) {
-        repo.createVenta(venta);
-        return "Venta guardada";
+    // }
+    public ResponseEntity<Venta> postV(@RequestBody VentaRequest ventaRequest) {
+        Venta ventaCreada = repo.createVenta(ventaRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ventaCreada);
     }
+    ///
+    // public ResponseEntity<String> postV(@RequestBody VentaRequest ventaRequest) {
+    // boolean encontrado = repo.createVenta(ventaRequest);
 
+    // if (encontrado) {
+    // return new ResponseEntity<>("Venta creada con éxito.", HttpStatus.OK);
+    // } else {
+    // return new ResponseEntity<>("No se pudo realizar la venta.",
+    // HttpStatus.NOT_FOUND);
+    // }
+    // }
     @Operation(summary = "Modificar una venta en base a su ID", description = "Se pasa el ID de la venta y se modifica la información de la misma")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PutMapping("/modificar/{id}")
     public ResponseEntity<String> updateV(@PathVariable Long id, @RequestBody Venta venta) {
