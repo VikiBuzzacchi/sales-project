@@ -65,15 +65,29 @@ public class VentaService {
             }
         }
 
-        float ventaTotal = (float) productosVendidos.stream()
-                .mapToDouble(Producto::getPrecio)
-                .sum();
+        // Calcular el precio total sumando los precios de los productos
+        float precioTotalVenta = 0.0f;
+        int cantidadVenta = 0;
+        for (Producto producto : productosEncontrados) {
+            // Verificar si hay suficiente stock del producto
+            if (producto.getCantidad() >= 1) {
+                // Restar 1 a la cantidad del producto en la base de datos
+                producto.setCantidad(producto.getCantidad() - 1);
+                // Actualizar el precio total de la venta
+                precioTotalVenta += producto.getPrecio();
+                //suma la cantidad de productos
+                cantidadVenta++;
+            } else {
+                // Informar que no hay suficiente stock para el producto
+                return null;
+            }
+        }
 
         Venta sale = new Venta();
         sale.setCliente(clienteEncontrado);
         sale.setProductos(productosVendidos);
         sale.setCantidad(venta.getProductoIds().size());
-        sale.setPrecioTotal(ventaTotal);
+        sale.setPrecioTotal(precioTotalVenta);
         // Obtener la fecha del servicio externo
         LocalDateTime fechaActual = fechaService.obtenerFecha();
         // Asignar la fecha a la venta
