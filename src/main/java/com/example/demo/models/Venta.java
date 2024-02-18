@@ -1,7 +1,6 @@
 package com.example.demo.models;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,8 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +30,6 @@ public class Venta {
     private Long id;
 
     @Schema(description = "Fecha de la venta en la venta", requiredMode = Schema.RequiredMode.REQUIRED, example = "2024-02-07T08:30:00")
-    // @Temporal(TemporalType.TIMESTAMP)
-    // private Date fecha;
     private LocalDateTime fecha;
 
     @Column

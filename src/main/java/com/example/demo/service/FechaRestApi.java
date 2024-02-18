@@ -1,7 +1,7 @@
 package com.example.demo.service;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 import com.example.demo.models.WorldClockResponse;

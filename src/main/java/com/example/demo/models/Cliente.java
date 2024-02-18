@@ -1,15 +1,11 @@
 package com.example.demo.models;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,8 +33,5 @@ public class Cliente {
     @Column(name = "correo")
     @Schema(description = "Email del usuario", requiredMode = Schema.RequiredMode.REQUIRED, example = "vbuzzacchi7@gmail.com")
     private String email;
-
-    // @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
-    // private List<Venta> ventas;
 
 }

@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.models.Producto;
 import com.example.demo.repository.ProductoRepository;
 
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductoService {
-    
+
     @Autowired
     private ProductoRepository repo;
 
@@ -50,7 +49,7 @@ public class ProductoService {
         return repo.findAllById(ids);
     }
 
-    //sets particulares
+    // sets particulares
 
     public ResponseEntity<String> updatePrecio(Long id, Producto producto) {
         return updateField(id, producto, "precio", producto.getPrecio());
@@ -83,25 +82,6 @@ public class ProductoService {
         }
     }
 
-    // private ResponseEntity<String> updateField(Long id, Producto producto, String fieldName, Object fieldValue) {
-    //     Optional<Producto> optionalProducto = repo.findById(id);
-    
-    //     if (optionalProducto.isPresent()) {
-    //         Producto updateProducto = optionalProducto.get();
-    //         String capitalizedFieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-    //         try {
-    //             updateProducto.getClass().getMethod("set" + capitalizedFieldName, fieldValue.getClass()).invoke(updateProducto, fieldValue);
-    //             repo.save(updateProducto);
-    //             return new ResponseEntity<>(fieldName + " actualizado con éxito.", HttpStatus.OK);
-    //         } catch (Exception e) {
-    //             // Manejar excepciones, si es necesario
-    //             return new ResponseEntity<>("Error al actualizar el campo.", HttpStatus.INTERNAL_SERVER_ERROR);
-    //         }
-    //     } else {
-    //         return new ResponseEntity<>("Producto no encontrado.", HttpStatus.NOT_FOUND);
-    //     }
-    // }
-
     public boolean deleteProducto(Long productoId) {
         // Validar si el producto existe antes de eliminar
         Optional<Producto> optionalProducto = repo.findById(productoId);
@@ -114,6 +94,5 @@ public class ProductoService {
         }
         return presente;
     }
-    
 
 }

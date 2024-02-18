@@ -31,11 +31,6 @@ public class ClienteService {
     }
 
     public boolean updateCliente(Long clienteId, Cliente cliente) {
-        // Validar si el cliente existe antes de actualizar
-        // getClienteById(clienteId);
-        // cliente.setId(clienteId);
-        // return clienteRepository.save(cliente);
-        //
         Optional<Cliente> optionalCliente = clienteRepository.findById(clienteId);
         boolean presente = false; // Cliente no encontrado
 

@@ -36,11 +36,6 @@ public class VentaService {
     }
 
     public Venta createVenta(VentaRequest venta) {
-
-        // // Guardar la venta en la base de datos
-        // return repo.save(venta);
-
-        ////////////////////
         Cliente clienteEncontrado = clienteService.getClienteById(venta.getClienteId());
         if (clienteEncontrado == null) {
             return null;
@@ -48,14 +43,13 @@ public class VentaService {
         List<Long> productoIds = venta.getProductoIds();
         List<Producto> productosEncontrados;
         if (venta.getProductoIds() != null && !venta.getProductoIds().isEmpty()) {
-            // List<Long> productIdsIterable = venta.getProductIds();
             productosEncontrados = productoService.getProductosByIds(productoIds);
         } else {
             return null;
         }
 
         List<Producto> productosVendidos = new ArrayList<>();
-        ;
+        // ;
 
         for (Long productoId : productoIds) {
             for (Producto producto : productosEncontrados) {
@@ -75,7 +69,7 @@ public class VentaService {
                 producto.setCantidad(producto.getCantidad() - 1);
                 // Actualizar el precio total de la venta
                 precioTotalVenta += producto.getPrecio();
-                //suma la cantidad de productos
+                // suma la cantidad de productos
                 cantidadVenta++;
             } else {
                 // Informar que no hay suficiente stock para el producto
@@ -86,13 +80,14 @@ public class VentaService {
         Venta sale = new Venta();
         sale.setCliente(clienteEncontrado);
         sale.setProductos(productosVendidos);
-        sale.setCantidad(venta.getProductoIds().size());
+        sale.setCantidad(cantidadVenta);
         sale.setPrecioTotal(precioTotalVenta);
         // Obtener la fecha del servicio externo
         LocalDateTime fechaActual = fechaService.obtenerFecha();
         // Asignar la fecha a la venta
-        venta.setFecha(fechaActual);
+        sale.setFecha(fechaActual);
         return repo.save(sale);
+
     }
 
     public boolean updateVenta(Long ventaId, Venta venta) {
@@ -100,7 +95,6 @@ public class VentaService {
         boolean presente = false; // Venta no encontrado
 
         if (optionalVenta.isPresent()) {
-            // getVentaById(ventaId);
             venta.setId(ventaId);
             repo.save(venta);
             presente = true;

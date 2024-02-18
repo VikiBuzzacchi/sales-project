@@ -36,8 +36,7 @@ public class ClienteController {
     @Operation(summary = "Index", description = "Inicio de la aplicación")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping
     public String index() {
@@ -46,13 +45,13 @@ public class ClienteController {
 
     /**
      * Get de clientes
+     * 
      * @return lista completa de clientes en la base de datos
      */
     @Operation(summary = "Mostrar lista de usuarios", description = "Permite mostrar la lista de clientes de la base de datos")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @GetMapping("clientes")
     public List<Cliente> getClientes() {
@@ -61,14 +60,14 @@ public class ClienteController {
 
     /**
      * Post de cliente
+     * 
      * @param cliente
      * @return cliente guardado
      */
     @Operation(summary = "Crear nuevo usuario", description = "Permite crear un nuevo usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping("alta")
     public String post(@RequestBody Cliente cliente) {
@@ -78,6 +77,7 @@ public class ClienteController {
 
     /**
      * Put de cliente
+     * 
      * @param id
      * @param cliente
      * @return cliente modificado
@@ -85,17 +85,11 @@ public class ClienteController {
     @Operation(summary = "Modificar un cliente en base a su ID", description = "Se pasa el ID del cliente y se modifica la información del mismo")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PutMapping("modificar/{id}")
     // public String update(@PathVariable Long id, @RequestBody Cliente cliente) {
     public ResponseEntity<String> update(@PathVariable Long id, @RequestBody Cliente cliente) {
-        // Cliente updateCliente = repo.updateCliente(id, cliente);
-        // // return "Modificado";
-        // return updateCliente;
-
-        //
         boolean encontrado = repo.updateCliente(id, cliente);
 
         if (encontrado) {
@@ -107,14 +101,14 @@ public class ClienteController {
 
     /**
      * Delete de cliente
+     * 
      * @param id
      * @return si se pudo o no eliminar el cliente
      */
     @Operation(summary = "Eliminar usuario por ID", description = "En base al ID del cliente, y si el mismo existe, se puede eliminar de la BD")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
-            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
+            @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @DeleteMapping("baja/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {

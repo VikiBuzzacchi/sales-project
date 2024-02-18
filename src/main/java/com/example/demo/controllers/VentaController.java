@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.Venta;
+import com.example.demo.models.VentaRequest;
 import com.example.demo.service.VentaService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-// import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -73,36 +73,11 @@ public class VentaController {
             @ApiResponse(responseCode = "400", description = "Parámetros incorrectos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponseDTO.class)))
     })
     @PostMapping("/new")
-    // public String postV(@RequestBody Venta venta) {
-    // repo.createVenta(venta);
-    // return "Venta guardada.";
-    // }
-    // public ResponseEntity<String> postV(@RequestBody Venta venta) {
-
-    // Venta nuevaVenta = repo.createVenta(venta);
-
-    // if (nuevaVenta != null) {
-    // return new ResponseEntity<>("Venta guardada.", HttpStatus.OK);
-    // } else {
-    // return new ResponseEntity<>("No se pudo guardar la venta.",
-    // HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
-    // }
     public ResponseEntity<Venta> postV(@RequestBody VentaRequest ventaRequest) {
         Venta ventaCreada = repo.createVenta(ventaRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(ventaCreada);
     }
-    ///
-    // public ResponseEntity<String> postV(@RequestBody VentaRequest ventaRequest) {
-    // boolean encontrado = repo.createVenta(ventaRequest);
 
-    // if (encontrado) {
-    // return new ResponseEntity<>("Venta creada con éxito.", HttpStatus.OK);
-    // } else {
-    // return new ResponseEntity<>("No se pudo realizar la venta.",
-    // HttpStatus.NOT_FOUND);
-    // }
-    // }
     @Operation(summary = "Modificar una venta en base a su ID", description = "Se pasa el ID de la venta y se modifica la información de la misma")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),

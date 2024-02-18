@@ -1,14 +1,11 @@
 package com.example.demo.models;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,12 +37,5 @@ public class Producto {
     @Column
     @Schema(description = "Descripción del producto", requiredMode = Schema.RequiredMode.REQUIRED, example = "Dispositivo electrónico que procesa datos y ejecuta programas.")
     private String descripcion;
-
-    // @ManyToOne(optional = false)
-    // @JoinColumn(name = "venta_id")
-    // private Venta venta;
-
-    // @ManyToMany(mappedBy = "productos")
-    // private List<Venta> ventas;
 
 }
